@@ -36,6 +36,27 @@ pipeline {
             }
         }
 
+        // ---- NEW: Coverage stage (Part 4 Step 1) ----
+        stage('Coverage') {
+            steps {
+                bat """
+                call %VIRTUAL_ENV%\\Scripts\\activate
+                %VIRTUAL_ENV%\\Scripts\\python.exe -m coverage run -m pytest
+                %VIRTUAL_ENV%\\Scripts\\python.exe -m coverage report
+                """
+            }
+        }
+
+        // ---- NEW: Security Scan stage (Part 4 Step 2) ----
+        stage('Security Scan') {
+            steps {
+                bat """
+                call %VIRTUAL_ENV%\\Scripts\\activate
+                %VIRTUAL_ENV%\\Scripts\\python.exe -m bandit -r .
+                """
+            }
+        }
+
         stage('Deploy') {
             steps {
                 bat """
