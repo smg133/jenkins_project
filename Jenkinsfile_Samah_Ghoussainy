@@ -10,10 +10,10 @@ pipeline {
             steps {
                 bat """
                 if not exist %VIRTUAL_ENV% (
-                    python -m venv %VIRTUAL_ENV%
+                    "C:/Users/HP/AppData/Local/Microsoft/WindowsApps/python.exe" -m venv %VIRTUAL_ENV%
                 )
                 call %VIRTUAL_ENV%\\Scripts\\activate
-                pip install -r requirements.txt
+                %VIRTUAL_ENV%\\Scripts\\python.exe -m pip install -r requirements.txt
                 """
             }
         }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 bat """
                 call %VIRTUAL_ENV%\\Scripts\\activate
-                flake8 app.py
+                %VIRTUAL_ENV%\\Scripts\\python.exe -m flake8 app.py
                 """
             }
         }
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 bat """
                 call %VIRTUAL_ENV%\\Scripts\\activate
-                pytest
+                %VIRTUAL_ENV%\\Scripts\\python.exe -m pytest
                 """
             }
         }
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 bat """
                 call %VIRTUAL_ENV%\\Scripts\\activate
-                echo Deploying application...
+                %VIRTUAL_ENV%\\Scripts\\python.exe app.py > deploy_output.txt
                 """
             }
         }
