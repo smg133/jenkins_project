@@ -53,10 +53,11 @@ pipeline {
                 bat """
                 set PYTHONIOENCODING=utf-8
                 call %VIRTUAL_ENV%\\Scripts\\activate
-                %VIRTUAL_ENV%\\Scripts\\python.exe -m bandit -r . -f txt -o bandit_report.txt
+                %VIRTUAL_ENV%\\Scripts\\python.exe -m bandit -r . -x venv -f txt -o bandit_report.txt
                 """
             }
         }
+
 
 
         stage('Deploy') {
