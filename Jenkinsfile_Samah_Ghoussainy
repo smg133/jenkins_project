@@ -10,7 +10,7 @@ pipeline {
             steps {
                 bat """
                 if not exist %VIRTUAL_ENV% (
-                    "C:/Users/HP/AppData/Local/Microsoft/WindowsApps/python.exe" -m venv %VIRTUAL_ENV%
+                    "C:\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m venv %VIRTUAL_ENV%
                 )
                 call %VIRTUAL_ENV%\\Scripts\\activate
                 %VIRTUAL_ENV%\\Scripts\\python.exe -m pip install -r requirements.txt
