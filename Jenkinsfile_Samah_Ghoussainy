@@ -8,44 +8,47 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                script {
-                    if (!fileExists("${env.WORKSPACE}/${VIRTUAL_ENV}")) {
-                        sh "python -m venv ${VIRTUAL_ENV}"
-                    }
-                    sh "source ${VIRTUAL_ENV}/bin/activate && pip install -r requirements.txt"
-                }
+                bat """
+                if not exist %VIRTUAL_ENV% (
+                    python -m venv %VIRTUAL_ENV%
+                )
+                call %VIRTUAL_ENV%\\Scripts\\activate
+                pip install -r requirements.txt
+                """
             }
         }
 
         stage('Lint') {
             steps {
-                script {
-                    sh "source ${VIRTUAL_ENV}/bin/activate && flake8 app.py"
-                }
+                bat """
+                call %VIRTUAL_ENV%\\Scripts\\activate
+                flake8 app.py
+                """
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    sh "source ${VIRTUAL_ENV}/bin/activate && pytest"
-                }
+                bat """
+                call %VIRTUAL_ENV%\\Scripts\\activate
+                pytest
+                """
             }
         }
 
         stage('Deploy') {
             steps {
-                script {
-                    // Deployment logic, e.g., pushing to a remote server
-                    echo "Deploying application..."
-                }
+                bat """
+                call %VIRTUAL_ENV%\\Scripts\\activate
+                echo Deploying application...
+                """
             }
         }
     }
 
     post {
         always {
-            cleanWs()
+            deleteDir()
         }
     }
 }
